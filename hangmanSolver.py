@@ -2,6 +2,7 @@
 #A program to optimally play hangman, by frequency analysis of all possible words
 from os import system; system('clear')
 from collections import Counter
+from random import choice
 import re
 
 #Read in all the allowed words
