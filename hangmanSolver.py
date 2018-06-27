@@ -1,6 +1,6 @@
 #Edmund Goodman - Creative Commons Attribution-NonCommercial-ShareAlike 2.5
 #A program to optimally play hangman, by frequency analysis of all possible words
-from os import system; system('clear')
+from os import system; system('clear') #If windows, change to: system('cls')
 from collections import Counter
 from random import choice
 import re
@@ -24,7 +24,7 @@ count = 0
 #While it is not totally guessed
 while True:
     #Print the HUD
-    system('clear')
+    system('clear') #If windows, change to: system('cls')
     percentageLeft = str(round((100/totalPossibleWords)*len(possibleWords), 2))+"%"
     print("{} | ? | ? | {}".format(" ".join([str(x)[-1] for x in range(1,wordLen+1)]), percentageLeft))
     print("{} | {} | {}".format(" ".join(word), suggestedLetter, len(possibleWords)))
@@ -96,7 +96,7 @@ while True:
     #Increment the count variable
     count += 1
 
-system('clear')
+system('clear') #If windows, change to: system('cls')
 if len(possibleWords) == 1:
     print("Done in {} moves! The word was \"{}\"".format(count, possibleWords[0]))
 else:
