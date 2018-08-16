@@ -26,7 +26,7 @@ while True:
     #Print the HUD
     system('clear') #If windows, change to: system('cls')
     percentageLeft = str(round((100/totalPossibleWords)*len(possibleWords), 2))+"%"
-    print("{} | ? | ? | {}".format(" ".join([str(x)[-1] for x in range(1,wordLen+1)]), percentageLeft))
+    print("{} | ? | {}".format(" ".join([str(x)[-1] for x in range(1,wordLen+1)]), percentageLeft))
     print("{} | {} | {}".format(" ".join(word), suggestedLetter, len(possibleWords)))
     if len(possibleWords) < 25:
         print(" ".join(possibleWords))
