@@ -1,4 +1,5 @@
-#Edmund Goodman - Creative Commons Attribution-NonCommercial-ShareAlike 2.5
+#!/usr/bin/env python3
+
 #A program to optimally play hangman, by frequency analysis of all possible words
 from collections import Counter
 from random import sample
@@ -8,13 +9,13 @@ import re
 class HangmanSolver:
     def __init__(self, wordListFileName="wordList.txt"):
         """Initialise all the state variables"""
-        self.alphabet = "etaoinsrhdlucmfywgpbvkxqjz"
+        self.alphabet = "etaoinsrhdlucmfywgpbvkxqjz" #Ordered by frequency
         self.getWordList(wordListFileName)
         self.word = []
         self.wordLength = 0
 
         self.guessedLetters = []
-        self.suggestedLetter = self.alphabet[0] #Alphabet is ordered by frequency
+        self.suggestedLetter = self.alphabet[0]
 
         self.correctContinueTurn = True
 
@@ -43,14 +44,15 @@ class HangmanSolver:
         return [i for i in self.wordList if len(i)==length]
 
     def filterWordPatterns(self):
-        """Narrow down the list of words to only those that fit the found letters"""
+        """Narrow down the list of words to only those that fit the letters"""
         pattern = re.compile("".join([
             x if x != "_" else "[^{}]".format("".join(self.guessedLetters))
             for x in self.word]))
         return [x for x in self.wordList if bool(pattern.match(x))]
 
     def fillInPositions(self, letter, positions):
-        """Add the letter to the word at all of the given positions, and to correctLetters"""
+        """Add the letter to the word at all of the given positions, and to
+        correctLetters"""
         for position in positions:
             self.word[position-1] = letter
 
@@ -68,7 +70,9 @@ class HangmanSolver:
             #The optimum letter is one which splits the possible words into
             #two even groups (binary search)
             return min(letterFrequencies,
-                key=lambda i: abs(letterFrequencies[i] - round(len(self.wordList)/2))
+                key=lambda i: abs(
+                    letterFrequencies[i] - round(len(self.wordList)/2)
+                )
             )
 
 
@@ -95,7 +99,7 @@ class HangmanSolver:
         """Take user input on the positions of the letters revealed"""
         positions = []
         while 1:
-            position = input("Enter the position of the letter in the word or an empty string to stop: ")
+            position = input("Enter the position of the letters: ")
             if position == "":
                 break
 
@@ -118,7 +122,8 @@ class HangmanSolver:
 
 
     def benchmark(self, word):
-        """Given a word, use the suggested guesses to see how many moves it would take"""
+        """Given a word, use the suggested guesses to see how many moves it
+        would take"""
         self.setEmptyWord(length=len(word))
         self.wordList = self.filterWordLengths(self.wordLength)
 
@@ -131,10 +136,14 @@ class HangmanSolver:
 
             self.wordList = self.filterWordPatterns()
             if len(self.wordList) == 1:
-                print("'{}' found in {} guesses: {}".format(word, count, ", ".join(self.guessedLetters)))
+                print("'{}' found in {} guesses: {}".format(
+                    word, count, ", ".join(self.guessedLetters))
+                )
                 break
             elif len(self.wordList) == 0:
-                print("The word could not be found with the guesses: {}".format(", ".join(self.guessedLetters)))
+                print("The word could not be found with the guesses: {}".format(
+                    ", ".join(self.guessedLetters))
+                )
                 break
 
             self.suggestedLetter = self.getBestLetter()
@@ -160,7 +169,9 @@ class HangmanSolver:
 
             #If there are no possible words left
             if len(self.wordList) == 1:
-                print("Done in {} guesses! The word was '{}'".format(count, self.wordList[0]))
+                print("Done in {} guesses! The word was '{}'".format(
+                    count, self.wordList[0])
+                )
                 break
             elif len(self.wordList) == 0:
                 print("Invalid word! Check for a spelling mistake or an undisclosed letter")
