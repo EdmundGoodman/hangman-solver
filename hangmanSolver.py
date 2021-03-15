@@ -27,7 +27,12 @@ class HangmanSolver:
     def setEmptyWord(self, prompt="How long is the word: ", length=0):
         """Update the data structure given the length of the word"""
         if length == 0:
-            self.wordLength = int(input(prompt))
+            while 1:
+                wordLengthInput = input(prompt)
+                if (wordLengthInput.isdigit()):
+                    self.wordLength = int(wordLengthInput)
+                    break
+                print("The word length must be an integer")
         else:
             self.wordLength = length
         self.word = ["_" for _ in range(self.wordLength)]
@@ -80,22 +85,31 @@ class HangmanSolver:
 
     def getLetterInput(self):
         """Take user input on the letter to guess"""
-        letter = str(input("Enter a letter to guess: "))
-        while letter not in self.alphabet:
-            letter = str(input("Invalid letter; please try again: "))
-        return letter
+        while 1:
+            letter = str(input("Enter a letter to guess: "))
+            if letter in self.alphabet and letter != "":
+                return letter
+            print("The letter must be alphabetical and not empty")
 
     def getCorrectLetterPositions(self):
         """Take user input on the positions of the letters revealed"""
         positions = []
         while 1:
-            letter = input("Enter the position of the letter in the word: ")
-            try:
+            position = input("Enter the position of the letter in the word or an empty string to stop: ")
+            if position == "":
+                break
+
+            if position.isdigit():
                 intPosition = int(position)
-                if 1 <= intPosition <= self.wordLength and self.word[intPosition-1] == "_":
-                    positions.append(intPosition)
-            except:
-                print("Invalid position")
+                if 1 <= intPosition <= self.wordLength:
+                    if self.word[intPosition-1] == "_":
+                        positions.append(intPosition)
+                    else:
+                        print("The position which is not already occupied")
+                else:
+                    print("The position must be integer in the range of the word size")
+            else:
+                print("The position must be an integer")
         return positions
 
     def getPercentageWordsLeft(self):
