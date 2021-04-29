@@ -1,2 +1,2 @@
 # hangman-solver
-A simple program to fairly optimally play hangman (https://en.wikipedia.org/wiki/Hangman_(game)) by frequency analysis of a word list, written as an extra-curricular school project, in Python
+A simple program that uses statistical analysis of a dictionary to play the game hangman optimally
